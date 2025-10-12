@@ -1,18 +1,9 @@
-import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Check } from "lucide-react";
 import { Link } from "react-router-dom";
+import PricingCalculator from "@/components/PricingCalculator";
 
 const Pricing = () => {
-  const [documents, setDocuments] = useState(1000);
-  
-  const calculatePrice = (docs: number) => {
-    if (docs <= 1000) return 0;
-    if (docs <= 10000) return 299;
-    if (docs <= 50000) return 999;
-    return "Custom";
-  };
 
   return (
     <div className="min-h-screen pt-24">
@@ -28,45 +19,26 @@ const Pricing = () => {
         </div>
       </section>
 
-      {/* Calculator */}
-      <section className="py-16 px-8 bg-secondary/30">
-        <div className="max-w-4xl mx-auto bg-card p-10 rounded-2xl shadow-xl border border-border">
-          <h2 className="text-3xl font-bold text-primary mb-6 text-center">
-            Usage Calculator
+      {/* Interactive Calculator */}
+      <section className="py-20 px-8 bg-secondary/30">
+        <div className="max-w-7xl mx-auto">
+          <h2 className="text-4xl font-bold text-primary mb-4 text-center">
+            Estimate Your Plan
           </h2>
-          <div className="space-y-6">
-            <div>
-              <label className="block text-sm font-medium text-muted-foreground mb-2">
-                Documents to process per month
-              </label>
-              <Input
-                type="number"
-                value={documents}
-                onChange={(e) => setDocuments(Number(e.target.value))}
-                className="text-2xl h-16 text-center"
-                min="0"
-              />
-            </div>
-            <div className="bg-accent/10 p-8 rounded-xl text-center">
-              <p className="text-muted-foreground mb-2">Estimated Monthly Cost</p>
-              <p className="text-5xl font-bold text-accent">
-                {typeof calculatePrice(documents) === 'number' 
-                  ? `$${calculatePrice(documents)}`
-                  : calculatePrice(documents)
-                }
-              </p>
-              {typeof calculatePrice(documents) === 'number' && calculatePrice(documents) === 0 && (
-                <p className="text-sm text-muted-foreground mt-2">Start for free</p>
-              )}
-            </div>
-          </div>
+          <p className="text-center text-muted-foreground mb-12 text-lg">
+            Build a custom quote based on your exact needs
+          </p>
+          <PricingCalculator />
         </div>
       </section>
 
       {/* Pricing Tiers */}
       <section className="py-20 px-8">
         <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-3 gap-8">
+          <h2 className="text-4xl font-bold text-primary mb-12 text-center">
+            Pre-Built Plans
+          </h2>
+          <div className="grid grid-cols-3 gap-8 items-start">
             {/* Starter */}
             <div className="bg-card p-10 rounded-2xl shadow-lg border border-border">
               <h3 className="text-2xl font-bold text-primary mb-2">Starter</h3>
@@ -101,7 +73,7 @@ const Pricing = () => {
             </div>
 
             {/* Growth */}
-            <div className="bg-gradient-accent p-10 rounded-2xl shadow-xl relative border-2 border-accent transform scale-105">
+            <div className="bg-gradient-accent p-10 rounded-2xl shadow-xl relative border-2 border-accent">
               <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-primary text-primary-foreground px-4 py-1 rounded-full text-sm font-semibold">
                 Most Popular
               </div>
@@ -229,6 +201,18 @@ const Pricing = () => {
                   <td className="p-6 text-center">-</td>
                   <td className="p-6 text-center"><Check className="w-5 h-5 text-accent mx-auto" /></td>
                   <td className="p-6 text-center"><Check className="w-5 h-5 text-accent mx-auto" /></td>
+                </tr>
+                <tr className="bg-secondary/20">
+                  <td className="p-6 text-muted-foreground">Custom Database Builder</td>
+                  <td className="p-6 text-center">-</td>
+                  <td className="p-6 text-center">-</td>
+                  <td className="p-6 text-center"><Check className="w-5 h-5 text-accent mx-auto" /></td>
+                </tr>
+                <tr>
+                  <td className="p-6 text-muted-foreground">Linkable Vaults</td>
+                  <td className="p-6 text-center">0</td>
+                  <td className="p-6 text-center">Up to 3</td>
+                  <td className="p-6 text-center">Unlimited</td>
                 </tr>
                 <tr className="bg-secondary/20">
                   <td className="p-6 text-muted-foreground">Custom Integrations</td>

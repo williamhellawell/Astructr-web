@@ -143,57 +143,112 @@ const Product = () => {
             </TabsContent>
 
             <TabsContent value="roles" className="space-y-16">
-              {/* Data Scientists */}
-              <div className="grid grid-cols-2 gap-16 items-center">
-                <div>
-                  <div className="w-16 h-16 bg-accent/10 rounded-xl flex items-center justify-center mb-6">
-                    <Code className="w-8 h-8 text-accent" />
+              {/* Data Scientists - Two Column Layout */}
+              <div className="bg-card rounded-2xl shadow-xl border border-border overflow-hidden">
+                <div className="grid grid-cols-2 divide-x divide-border">
+                  {/* Left: Code */}
+                  <div className="bg-primary p-12">
+                    <div className="mb-6">
+                      <div className="flex items-center gap-3 mb-4">
+                        <Code className="w-8 h-8 text-accent" />
+                        <h2 className="text-3xl font-bold text-accent-foreground">For Data Scientists</h2>
+                      </div>
+                      <p className="text-accent-foreground/80">
+                        Stop wasting time on data wrangling. Get clean, structured, LLM-ready datasets from day one.
+                      </p>
+                    </div>
+                    
+                    <div className="bg-[#1e1e1e] rounded-xl p-6 font-mono text-sm">
+                      <div className="flex items-center gap-2 mb-4 pb-4 border-b border-white/10">
+                        <div className="w-3 h-3 rounded-full bg-red-500"></div>
+                        <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
+                        <div className="w-3 h-3 rounded-full bg-green-500"></div>
+                        <span className="ml-2 text-white/60 text-xs">api_example.py</span>
+                      </div>
+                      <pre className="text-[#d4d4d4] overflow-x-auto">
+<span className="text-[#c586c0]">import</span> <span className="text-[#4ec9b0]">arcxion</span>
+
+<span className="text-[#9cdcfe]">client</span> = <span className="text-[#4ec9b0]">arcxion</span>.<span className="text-[#dcdcaa]">Client</span>({'\n'}  <span className="text-[#9cdcfe]">api_key</span>=<span className="text-[#ce9178]">"your_key"</span>{'\n'})
+
+<span className="text-[#6a9955]"># Process documents</span>{'\n'}
+<span className="text-[#9cdcfe]">result</span> = <span className="text-[#9cdcfe]">client</span>.<span className="text-[#dcdcaa]">process</span>({'\n'}  <span className="text-[#9cdcfe]">files</span>=[<span className="text-[#ce9178]">"report.pdf"</span>],{'\n'}  <span className="text-[#9cdcfe]">output</span>=<span className="text-[#ce9178]">"vector_db"</span>{'\n'})
+
+<span className="text-[#6a9955]"># Get structured data</span>{'\n'}
+<span className="text-[#c586c0]">print</span>(<span className="text-[#9cdcfe]">result</span>.<span className="text-[#9cdcfe]">vectors</span>)
+                      </pre>
+                    </div>
+                    
+                    <Button className="mt-6 bg-accent hover:bg-accent/90 w-full">
+                      View Full API Documentation
+                    </Button>
                   </div>
-                  <h2 className="text-4xl font-bold text-primary mb-6">
-                    For Data Scientists
-                  </h2>
-                  <p className="text-lg text-muted-foreground leading-relaxed mb-6">
-                    Stop wasting time on data wrangling. Get clean, structured, LLM-ready datasets from day one.
-                  </p>
-                  <div className="space-y-6 mb-8">
-                    <div>
-                      <h3 className="font-semibold text-primary mb-2">Technical Benefits</h3>
-                      <ul className="space-y-2">
-                        <li className="flex items-start gap-3">
-                          <div className="w-1.5 h-1.5 bg-accent rounded-full mt-2" />
-                          <span className="text-muted-foreground">RESTful API for seamless integration</span>
-                        </li>
-                        <li className="flex items-start gap-3">
-                          <div className="w-1.5 h-1.5 bg-accent rounded-full mt-2" />
-                          <span className="text-muted-foreground">99.9% uptime SLA with automatic scaling</span>
-                        </li>
-                        <li className="flex items-start gap-3">
-                          <div className="w-1.5 h-1.5 bg-accent rounded-full mt-2" />
-                          <span className="text-muted-foreground">Detailed parsing logs and error tracking</span>
-                        </li>
-                      </ul>
+
+                  {/* Right: Benefits */}
+                  <div className="p-12 bg-secondary/10">
+                    <h3 className="text-2xl font-bold text-primary mb-8">Technical Benefits</h3>
+                    
+                    <div className="space-y-6">
+                      <div className="flex items-start gap-4">
+                        <div className="w-2 h-2 bg-accent rounded-full mt-2"></div>
+                        <div>
+                          <h4 className="font-semibold text-primary mb-1">Clean JSON Output</h4>
+                          <p className="text-muted-foreground text-sm">
+                            Every document returns structured, parsable JSON with consistent schemas
+                          </p>
+                        </div>
+                      </div>
+
+                      <div className="flex items-start gap-4">
+                        <div className="w-2 h-2 bg-accent rounded-full mt-2"></div>
+                        <div>
+                          <h4 className="font-semibold text-primary mb-1">Metadata for Every Chunk</h4>
+                          <p className="text-muted-foreground text-sm">
+                            Rich context including source location, confidence scores, and extraction method
+                          </p>
+                        </div>
+                      </div>
+
+                      <div className="flex items-start gap-4">
+                        <div className="w-2 h-2 bg-accent rounded-full mt-2"></div>
+                        <div>
+                          <h4 className="font-semibold text-primary mb-1">Vision-Based Table Extraction</h4>
+                          <p className="text-muted-foreground text-sm">
+                            Our multimodal engine accurately extracts complex tables that traditional parsers miss
+                          </p>
+                        </div>
+                      </div>
+
+                      <div className="flex items-start gap-4">
+                        <div className="w-2 h-2 bg-accent rounded-full mt-2"></div>
+                        <div>
+                          <h4 className="font-semibold text-primary mb-1">RESTful API</h4>
+                          <p className="text-muted-foreground text-sm">
+                            Simple, documented endpoints that integrate with any stack in minutes
+                          </p>
+                        </div>
+                      </div>
+
+                      <div className="flex items-start gap-4">
+                        <div className="w-2 h-2 bg-accent rounded-full mt-2"></div>
+                        <div>
+                          <h4 className="font-semibold text-primary mb-1">99.9% Uptime SLA</h4>
+                          <p className="text-muted-foreground text-sm">
+                            Enterprise-grade infrastructure with automatic scaling and monitoring
+                          </p>
+                        </div>
+                      </div>
+
+                      <div className="flex items-start gap-4">
+                        <div className="w-2 h-2 bg-accent rounded-full mt-2"></div>
+                        <div>
+                          <h4 className="font-semibold text-primary mb-1">Detailed Error Tracking</h4>
+                          <p className="text-muted-foreground text-sm">
+                            Comprehensive logs for debugging and quality assurance
+                          </p>
+                        </div>
+                      </div>
                     </div>
                   </div>
-                  <Button className="bg-accent hover:bg-accent/90">
-                    View API Documentation
-                  </Button>
-                </div>
-                <div className="bg-secondary/30 rounded-2xl p-8 border border-border">
-                  <pre className="text-sm text-muted-foreground overflow-x-auto">
-{`// Simple API Integration
-import { Arcxion } from '@arcxion/sdk';
-
-const client = new Arcxion({
-  apiKey: process.env.ARCXION_KEY
-});
-
-const result = await client.process({
-  documents: ['report.pdf'],
-  format: 'vector-db'
-});
-
-console.log(result.vectors);`}
-                  </pre>
                 </div>
               </div>
 

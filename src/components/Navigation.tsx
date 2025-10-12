@@ -15,7 +15,8 @@ const Navigation = () => {
         
         <div className="flex items-center gap-8">
           <Link 
-            to="/product" 
+            to="/product"
+            onClick={() => window.scrollTo(0, 0)}
             className={`text-sm font-medium transition-smooth hover:text-accent ${
               isActive('/product') ? 'text-accent' : 'text-muted-foreground'
             }`}
@@ -23,7 +24,8 @@ const Navigation = () => {
             Product & Solutions
           </Link>
           <Link 
-            to="/pricing" 
+            to="/pricing"
+            onClick={() => window.scrollTo(0, 0)}
             className={`text-sm font-medium transition-smooth hover:text-accent ${
               isActive('/pricing') ? 'text-accent' : 'text-muted-foreground'
             }`}
@@ -31,7 +33,8 @@ const Navigation = () => {
             Pricing
           </Link>
           <Link 
-            to="/studio" 
+            to="/studio"
+            onClick={() => window.scrollTo(0, 0)}
             className={`text-sm font-medium transition-smooth hover:text-accent ${
               isActive('/studio') ? 'text-accent' : 'text-muted-foreground'
             }`}
@@ -39,7 +42,8 @@ const Navigation = () => {
             Studio
           </Link>
           <Link 
-            to="/status" 
+            to="/status"
+            onClick={() => window.scrollTo(0, 0)}
             className={`text-sm font-medium transition-smooth hover:text-accent ${
               isActive('/status') ? 'text-accent' : 'text-muted-foreground'
             }`}
@@ -48,12 +52,12 @@ const Navigation = () => {
           </Link>
           
           <div className="flex items-center gap-3 ml-4">
-            <Link to="/contact">
+            <Link to="/contact" onClick={() => window.scrollTo(0, 0)}>
               <Button variant="ghost" size="sm">
                 Contact Sales
               </Button>
             </Link>
-            <Link to="/contact">
+            <Link to="/contact" onClick={() => window.scrollTo(0, 0)}>
               <Button size="sm" className="bg-accent hover:bg-accent/90 text-accent-foreground shadow-accent">
                 Start Free
               </Button>

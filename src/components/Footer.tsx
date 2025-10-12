@@ -15,9 +15,9 @@ const Footer = () => {
           <div>
             <h4 className="font-semibold text-foreground mb-4">Product</h4>
             <ul className="space-y-3">
-              <li><Link to="/product" className="text-sm text-muted-foreground hover:text-accent transition-smooth">Solutions</Link></li>
-              <li><Link to="/pricing" className="text-sm text-muted-foreground hover:text-accent transition-smooth">Pricing</Link></li>
-              <li><Link to="/studio" className="text-sm text-muted-foreground hover:text-accent transition-smooth">Studio</Link></li>
+              <li><Link to="/product" onClick={() => window.scrollTo(0, 0)} className="text-sm text-muted-foreground hover:text-accent transition-smooth">Solutions</Link></li>
+              <li><Link to="/pricing" onClick={() => window.scrollTo(0, 0)} className="text-sm text-muted-foreground hover:text-accent transition-smooth">Pricing</Link></li>
+              <li><Link to="/studio" onClick={() => window.scrollTo(0, 0)} className="text-sm text-muted-foreground hover:text-accent transition-smooth">Studio</Link></li>
               <li><a href="#" className="text-sm text-muted-foreground hover:text-accent transition-smooth">API Docs</a></li>
             </ul>
           </div>
@@ -25,8 +25,8 @@ const Footer = () => {
           <div>
             <h4 className="font-semibold text-foreground mb-4">Company</h4>
             <ul className="space-y-3">
-              <li><Link to="/contact" className="text-sm text-muted-foreground hover:text-accent transition-smooth">Contact</Link></li>
-              <li><Link to="/status" className="text-sm text-muted-foreground hover:text-accent transition-smooth">Status</Link></li>
+              <li><Link to="/contact" onClick={() => window.scrollTo(0, 0)} className="text-sm text-muted-foreground hover:text-accent transition-smooth">Contact</Link></li>
+              <li><Link to="/status" onClick={() => window.scrollTo(0, 0)} className="text-sm text-muted-foreground hover:text-accent transition-smooth">Status</Link></li>
               <li><a href="#" className="text-sm text-muted-foreground hover:text-accent transition-smooth">Trust Center</a></li>
               <li><a href="#" className="text-sm text-muted-foreground hover:text-accent transition-smooth">Help Center</a></li>
             </ul>

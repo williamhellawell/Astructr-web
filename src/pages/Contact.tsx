@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 import { CheckCircle2 } from "lucide-react";
 
@@ -11,6 +12,7 @@ const Contact = () => {
     name: "",
     email: "",
     company: "",
+    topic: "",
     message: ""
   });
 
@@ -20,7 +22,7 @@ const Contact = () => {
       title: "Thank you for reaching out!",
       description: "Our team will respond within 2 hours.",
     });
-    setFormData({ name: "", email: "", company: "", message: "" });
+    setFormData({ name: "", email: "", company: "", topic: "", message: "" });
   };
 
   return (
@@ -85,6 +87,24 @@ const Contact = () => {
                 />
               </div>
               
+              <div>
+                <label className="block text-sm font-medium text-muted-foreground mb-2">
+                  Topic *
+                </label>
+                <Select value={formData.topic} onValueChange={(value) => setFormData({...formData, topic: value})} required>
+                  <SelectTrigger className="h-12">
+                    <SelectValue placeholder="Select a topic" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="sales">Sales Inquiry</SelectItem>
+                    <SelectItem value="pricing">Pricing Question</SelectItem>
+                    <SelectItem value="support">Technical Support</SelectItem>
+                    <SelectItem value="partnerships">Partnerships</SelectItem>
+                    <SelectItem value="other">Other</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
               <div>
                 <label className="block text-sm font-medium text-muted-foreground mb-2">
                   How can we help? *
