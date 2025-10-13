@@ -42,6 +42,15 @@ const Navigation = () => {
             Studio
           </Link>
           <Link 
+            to="/about"
+            onClick={() => window.scrollTo(0, 0)}
+            className={`text-sm font-medium transition-smooth hover:text-accent ${
+              isActive('/about') ? 'text-accent' : 'text-muted-foreground'
+            }`}
+          >
+            About
+          </Link>
+          <Link 
             to="/status"
             onClick={() => window.scrollTo(0, 0)}
             className={`text-sm font-medium transition-smooth hover:text-accent ${

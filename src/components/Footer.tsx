@@ -25,6 +25,7 @@ const Footer = () => {
           <div>
             <h4 className="font-semibold text-foreground mb-4">Company</h4>
             <ul className="space-y-3">
+              <li><Link to="/about" onClick={() => window.scrollTo(0, 0)} className="text-sm text-muted-foreground hover:text-accent transition-smooth">About</Link></li>
               <li><Link to="/contact" onClick={() => window.scrollTo(0, 0)} className="text-sm text-muted-foreground hover:text-accent transition-smooth">Contact</Link></li>
               <li><Link to="/status" onClick={() => window.scrollTo(0, 0)} className="text-sm text-muted-foreground hover:text-accent transition-smooth">Status</Link></li>
               <li><a href="#" className="text-sm text-muted-foreground hover:text-accent transition-smooth">Trust Center</a></li>

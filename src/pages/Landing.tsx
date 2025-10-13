@@ -1,15 +1,18 @@
-import { useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useState, useRef } from "react";
 import { Button } from "@/components/ui/button";
-import { Database, Zap, Shield, ArrowRight, FileX, AlertTriangle, CheckCircle } from "lucide-react";
+import { Link } from "react-router-dom";
+import { FileText, Brain, AlertCircle, Check, Database, Zap, Layers } from "lucide-react";
 
 const Landing = () => {
+  const [heroLoaded, setHeroLoaded] = useState(false);
   const [problemVisible, setProblemVisible] = useState(false);
   const [solutionStep, setSolutionStep] = useState(0);
   const problemRef = useRef<HTMLDivElement>(null);
   const solutionRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    setTimeout(() => setHeroLoaded(true), 100);
+
     const observerOptions = {
       threshold: 0.3,
       rootMargin: "0px"
@@ -26,13 +29,11 @@ const Landing = () => {
     const solutionObserver = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
-          const scrollProgress = entry.intersectionRatio;
-          if (scrollProgress > 0.3) setSolutionStep(1);
-          if (scrollProgress > 0.5) setSolutionStep(2);
-          if (scrollProgress > 0.7) setSolutionStep(3);
+          const progress = Math.min(entry.intersectionRatio * 4, 4);
+          setSolutionStep(Math.floor(progress));
         }
       });
-    }, { threshold: [0.3, 0.5, 0.7] });
+    }, { threshold: [0, 0.25, 0.5, 0.75, 1] });
 
     if (problemRef.current) problemObserver.observe(problemRef.current);
     if (solutionRef.current) solutionObserver.observe(solutionRef.current);
@@ -44,314 +45,397 @@ const Landing = () => {
   }, []);
 
   return (
-    <div className="min-h-screen relative overflow-hidden">
+    <div className="min-h-screen">
       {/* Animated Background Elements */}
-      <div className="fixed inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-accent/5 rounded-full blur-3xl animate-float" />
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl animate-float" style={{ animationDelay: '2s' }} />
+      <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
+        <div className="absolute top-20 left-10 w-64 h-64 bg-accent/5 rounded-full blur-3xl animate-float"></div>
+        <div className="absolute bottom-20 right-10 w-96 h-96 bg-primary/5 rounded-full blur-3xl animate-float" style={{ animationDelay: '2s' }}></div>
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-accent/3 rounded-full blur-3xl animate-pulse"></div>
       </div>
 
       {/* Hero Section */}
-      <section className="min-h-screen flex items-center justify-center bg-gradient-hero px-8 pt-24 relative">
-        <div className="max-w-7xl mx-auto grid grid-cols-2 gap-16 items-center">
-          <div className="animate-fade-in-up z-10">
-            <h1 className="text-7xl font-bold text-primary mb-6 leading-tight">
-              Turn Your Data Chaos into AI Clarity
-            </h1>
-            <p className="text-xl text-muted-foreground mb-10 leading-relaxed">
-              Arcxion.ai is the infrastructure that makes your LLM actually work on your company's data.
-            </p>
-            <div className="flex gap-4">
-              <Link to="/contact" onClick={() => window.scrollTo(0, 0)}>
-                <Button size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground shadow-accent text-base px-8">
-                  Request Demo
-                </Button>
-              </Link>
-              <Link to="/contact" onClick={() => window.scrollTo(0, 0)}>
-                <Button size="lg" variant="outline" className="text-base px-8">
-                  Start Free
-                </Button>
-              </Link>
-            </div>
-          </div>
-          <div className="animate-fade-in z-10">
-            <div className="relative">
-              <div className="absolute inset-0 bg-accent/20 rounded-2xl blur-2xl animate-pulse" />
-              <div className="relative bg-gradient-to-br from-primary/5 to-accent/5 p-12 rounded-2xl border border-accent/20 backdrop-blur-sm">
-                <div className="space-y-6">
-                  {/* Data Flow Visualization */}
-                  <div className="flex items-center gap-4">
-                    <div className="w-16 h-16 bg-primary/10 rounded-lg flex items-center justify-center animate-scale-in">
-                      <FileX className="w-8 h-8 text-primary" />
-                    </div>
-                    <div className="flex-1 h-1 bg-gradient-to-r from-primary/20 to-transparent animate-fade-in" style={{ animationDelay: '0.3s' }} />
-                  </div>
-                  <div className="flex items-center gap-4" style={{ animationDelay: '0.6s' }}>
-                    <div className="w-20 h-20 bg-accent/10 rounded-xl flex items-center justify-center animate-scale-in border-2 border-accent/30">
-                      <Zap className="w-10 h-10 text-accent" />
-                    </div>
-                    <div className="flex-1 h-1 bg-gradient-to-r from-accent/20 to-transparent animate-fade-in" style={{ animationDelay: '0.9s' }} />
-                  </div>
-                  <div className="flex items-center gap-4">
-                    <div className="w-16 h-16 bg-success/10 rounded-lg flex items-center justify-center animate-scale-in" style={{ animationDelay: '1.2s' }}>
-                      <CheckCircle className="w-8 h-8 text-success" />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Problem Section - Animated */}
-      <section ref={problemRef} className="py-32 px-8 bg-background relative">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-2 gap-20 items-center">
-            <div className={`transition-all duration-1000 ${problemVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-10'}`}>
-              <div className="relative">
-                {/* Animated Problem Visualization */}
-                <div className="bg-destructive/5 p-12 rounded-2xl border border-destructive/20 relative overflow-hidden">
-                  <div className="absolute inset-0 bg-gradient-to-br from-destructive/10 to-transparent" />
+      <section className="relative min-h-screen flex items-center justify-center px-8 pt-24">
+        <div className="max-w-7xl mx-auto text-center relative z-10">
+          {/* Central Dynamic Graphic */}
+          <div className={`mb-12 transition-all duration-1000 ${heroLoaded ? 'opacity-100 scale-100' : 'opacity-0 scale-90'}`}>
+            <div className="relative w-full max-w-2xl mx-auto h-80">
+              {/* Chaotic data points organizing */}
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="relative w-full h-full">
+                  {/* Chaotic particles that organize */}
+                  {[...Array(12)].map((_, i) => (
+                    <div
+                      key={i}
+                      className="absolute w-4 h-4 bg-accent rounded-full animate-float"
+                      style={{
+                        left: `${Math.random() * 100}%`,
+                        top: `${Math.random() * 100}%`,
+                        animationDelay: `${i * 0.2}s`,
+                        animationDuration: `${3 + Math.random() * 2}s`
+                      }}
+                    />
+                  ))}
                   
-                  {/* Chaotic Documents */}
-                  <div className="relative space-y-4">
-                    {[...Array(5)].map((_, i) => (
-                      <div 
-                        key={i}
-                        className={`flex items-center gap-3 p-4 bg-card rounded-lg border border-destructive/30 ${problemVisible ? 'animate-fade-in' : 'opacity-0'}`}
-                        style={{ 
-                          animationDelay: `${i * 0.1}s`,
-                          transform: `rotate(${(i - 2) * 3}deg)`
-                        }}
-                      >
-                        <FileX className="w-6 h-6 text-destructive" />
-                        <div className="flex-1 h-2 bg-muted rounded animate-pulse" />
-                        <AlertTriangle className="w-5 h-5 text-warning" />
+                  {/* Central organizing structure */}
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <div className="relative">
+                      <Database className="w-32 h-32 text-primary animate-pulse" />
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <div className="w-40 h-40 border-2 border-accent/30 rounded-full animate-ping" style={{ animationDuration: '3s' }}></div>
                       </div>
-                    ))}
-                  </div>
-
-                  {/* Error Indicators */}
-                  <div className={`mt-8 flex items-center justify-center gap-2 ${problemVisible ? 'animate-scale-in' : 'opacity-0'}`} style={{ animationDelay: '0.5s' }}>
-                    <div className="px-6 py-3 bg-destructive/20 text-destructive rounded-lg font-semibold">
-                      ERROR: Unable to Parse
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <div className="w-48 h-48 border border-accent/20 rounded-full animate-ping" style={{ animationDuration: '4s', animationDelay: '1s' }}></div>
+                      </div>
                     </div>
                   </div>
+
+                  {/* Glowing energy lines */}
+                  {[...Array(8)].map((_, i) => (
+                    <div
+                      key={`line-${i}`}
+                      className="absolute top-1/2 left-1/2 w-1 bg-gradient-to-t from-accent/50 to-transparent"
+                      style={{
+                        height: '40%',
+                        transform: `rotate(${i * 45}deg) translateY(-50%)`,
+                        transformOrigin: 'center',
+                        animation: 'pulse 2s ease-in-out infinite',
+                        animationDelay: `${i * 0.25}s`
+                      }}
+                    />
+                  ))}
                 </div>
               </div>
             </div>
-            <div className={`transition-all duration-1000 delay-300 ${problemVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-10'}`}>
-              <h2 className="text-5xl font-bold text-primary mb-6">
-                The Problem: Garbage In, Garbage Out
-              </h2>
-              <p className="text-xl text-muted-foreground leading-relaxed mb-6">
-                Your LLM investments are underperforming because they can't read the messy, unstructured documents that contain your most valuable data.
-              </p>
-              <p className="text-lg text-muted-foreground leading-relaxed mb-8">
-                PDFs, reports, spreadsheets—these are treasure troves of insights, but they're locked away in formats that AI struggles to understand.
-              </p>
-              <div className="space-y-3">
-                <div className="flex items-center gap-3 text-muted-foreground">
-                  <div className="w-2 h-2 bg-destructive rounded-full" />
-                  <span>95% of enterprise data is unstructured</span>
-                </div>
-                <div className="flex items-center gap-3 text-muted-foreground">
-                  <div className="w-2 h-2 bg-destructive rounded-full" />
-                  <span>Traditional parsers fail on complex layouts</span>
-                </div>
-                <div className="flex items-center gap-3 text-muted-foreground">
-                  <div className="w-2 h-2 bg-destructive rounded-full" />
-                  <span>Your AI can't access your best data</span>
-                </div>
-              </div>
+          </div>
+
+          {/* Headlines */}
+          <h1 className={`text-7xl font-bold text-primary mb-8 transition-all duration-1000 ${heroLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+            Your Data's True Potential, Structured.
+          </h1>
+          <p className={`text-xl text-muted-foreground mb-10 leading-relaxed transition-all duration-1000 max-w-3xl mx-auto ${heroLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`} style={{ transitionDelay: '0.2s' }}>
+            Astructr is the infrastructure that optimizes how your business integrates with its own data and the data of your industry.
+          </p>
+          
+          <div className={`flex gap-6 justify-center transition-all duration-1000 ${heroLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`} style={{ transitionDelay: '0.4s' }}>
+            <Link to="/contact">
+              <Button size="lg" className="text-lg px-8 py-6 bg-accent hover:bg-accent/90 shadow-accent">
+                Request Demo
+              </Button>
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Trusted By Section */}
+      <section className="py-20 px-8 bg-secondary/30">
+        <div className="max-w-7xl mx-auto text-center">
+          <h2 className="text-3xl font-bold text-primary mb-12">
+            Powering the AI Stack of Industry Leaders
+          </h2>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-12 items-center justify-items-center opacity-50">
+            {/* Placeholder for logos */}
+            <div className="w-40 h-20 bg-muted rounded-lg flex items-center justify-center">
+              <span className="text-muted-foreground font-semibold">Partner Logo</span>
+            </div>
+            <div className="w-40 h-20 bg-muted rounded-lg flex items-center justify-center">
+              <span className="text-muted-foreground font-semibold">Partner Logo</span>
+            </div>
+            <div className="w-40 h-20 bg-muted rounded-lg flex items-center justify-center">
+              <span className="text-muted-foreground font-semibold">Partner Logo</span>
+            </div>
+            <div className="w-40 h-20 bg-muted rounded-lg flex items-center justify-center">
+              <span className="text-muted-foreground font-semibold">Partner Logo</span>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Solution Section - Scrollytelling */}
-      <section ref={solutionRef} className="min-h-screen py-32 px-8 bg-secondary/30 relative">
+      {/* Problem Section - "Garbage In, Garbage Out" */}
+      <section ref={problemRef} className="py-32 px-8 relative overflow-hidden">
         <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-20">
-            <h2 className="text-5xl font-bold text-primary mb-6">
-              Our Solution: Parse → Extract → Structure
-            </h2>
-            <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-              Arcxion.ai transforms data chaos into pristine, structured, LLM-native vector databases.
-            </p>
-          </div>
+          <h2 className="text-5xl font-bold text-primary mb-16 text-center">
+            The Problem: Garbage In, Garbage Out
+          </h2>
           
-          {/* Animated Pipeline */}
-          <div className="relative mb-20">
-            <div className="flex items-center justify-between gap-8 relative">
-              {/* Messy Documents */}
-              <div className={`transition-all duration-1000 ${solutionStep >= 1 ? 'opacity-100 scale-100' : 'opacity-0 scale-90'}`}>
-                <div className="bg-muted/50 p-8 rounded-xl border border-border">
-                  <h3 className="text-sm font-semibold text-muted-foreground mb-4">INPUT</h3>
-                  <div className="space-y-2">
-                    <div className="w-32 h-3 bg-primary/20 rounded" />
-                    <div className="w-28 h-3 bg-primary/20 rounded" />
-                    <div className="w-24 h-3 bg-primary/20 rounded" />
-                  </div>
-                  <p className="text-xs text-muted-foreground mt-4">Messy Documents</p>
+          <div className="relative h-96">
+            {/* Complex Document */}
+            <div className={`absolute left-0 top-1/2 -translate-y-1/2 transition-all duration-1000 ${problemVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-20'}`}>
+              <div className="bg-card border-2 border-border rounded-lg p-6 w-64 shadow-lg">
+                <FileText className="w-16 h-16 text-primary mb-4" />
+                <div className="space-y-2">
+                  <div className="h-2 bg-muted rounded w-full"></div>
+                  <div className="h-2 bg-muted rounded w-3/4"></div>
+                  <div className="h-16 bg-accent/10 rounded"></div>
+                  <div className="h-2 bg-muted rounded w-full"></div>
+                  <div className="h-2 bg-muted rounded w-2/3"></div>
                 </div>
+                <p className="text-xs text-muted-foreground mt-4 font-semibold">Complex Document</p>
               </div>
+            </div>
 
-              {/* Flow Arrow */}
-              <div className={`flex-1 h-0.5 bg-gradient-to-r from-primary/30 to-accent/30 relative transition-all duration-1000 ${solutionStep >= 1 ? 'opacity-100' : 'opacity-0'}`}>
-                <div className="absolute right-0 top-1/2 -translate-y-1/2 w-3 h-3 bg-accent rounded-full" />
+            {/* Arrow */}
+            <div className={`absolute left-80 top-1/2 -translate-y-1/2 transition-all duration-1000 ${problemVisible ? 'opacity-100' : 'opacity-0'}`} style={{ transitionDelay: '0.3s' }}>
+              <div className="w-40 h-1 bg-gradient-to-r from-primary to-destructive relative">
+                <div className="absolute right-0 top-1/2 -translate-y-1/2 w-0 h-0 border-t-8 border-t-transparent border-l-12 border-l-destructive border-b-8 border-b-transparent"></div>
               </div>
+            </div>
 
-              {/* Arcxion Engine */}
-              <div className={`transition-all duration-1000 ${solutionStep >= 2 ? 'opacity-100 scale-100' : 'opacity-0 scale-90'}`}>
-                <div className="relative">
-                  <div className="absolute inset-0 bg-accent/20 rounded-2xl blur-xl animate-pulse" />
-                  <div className="relative bg-gradient-accent p-10 rounded-2xl border-2 border-accent">
-                    <Zap className="w-12 h-12 text-accent-foreground mx-auto mb-3" />
-                    <p className="text-accent-foreground font-bold text-center">Arcxion Engine</p>
-                    {solutionStep >= 2 && (
-                      <div className="mt-4 space-y-1">
-                        <div className="text-xs text-accent-foreground/80 text-center animate-fade-in">PARSE</div>
-                        <div className="text-xs text-accent-foreground/80 text-center animate-fade-in" style={{ animationDelay: '0.2s' }}>EXTRACT</div>
-                        <div className="text-xs text-accent-foreground/80 text-center animate-fade-in" style={{ animationDelay: '0.4s' }}>STRUCTURE</div>
-                      </div>
-                    )}
+            {/* AI Brain with Errors */}
+            <div className={`absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 transition-all duration-1000 ${problemVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-50'}`} style={{ transitionDelay: '0.6s' }}>
+              <div className="relative">
+                <Brain className="w-32 h-32 text-destructive animate-pulse" />
+                <AlertCircle className="absolute -top-2 -right-2 w-12 h-12 text-destructive animate-bounce" />
+                <AlertCircle className="absolute -bottom-2 -left-2 w-10 h-10 text-destructive animate-bounce" style={{ animationDelay: '0.2s' }} />
+              </div>
+            </div>
+
+            {/* Arrow */}
+            <div className={`absolute right-80 top-1/2 -translate-y-1/2 transition-all duration-1000 ${problemVisible ? 'opacity-100' : 'opacity-0'}`} style={{ transitionDelay: '0.9s' }}>
+              <div className="w-40 h-1 bg-destructive relative">
+                <div className="absolute right-0 top-1/2 -translate-y-1/2 w-0 h-0 border-t-8 border-t-transparent border-l-12 border-l-destructive border-b-8 border-b-transparent"></div>
+              </div>
+            </div>
+
+            {/* Scrambled Output */}
+            <div className={`absolute right-0 top-1/2 -translate-y-1/2 transition-all duration-1000 ${problemVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-20'}`} style={{ transitionDelay: '1.2s' }}>
+              <div className="bg-destructive/10 border-2 border-destructive rounded-lg p-6 w-64">
+                <div className="space-y-2">
+                  <div className="h-2 bg-destructive/30 rounded w-2/3"></div>
+                  <div className="h-2 bg-destructive/30 rounded w-full"></div>
+                  <div className="h-2 bg-destructive/30 rounded w-1/2"></div>
+                  <div className="flex gap-2 mt-4">
+                    <AlertCircle className="w-6 h-6 text-destructive" />
+                    <span className="text-sm text-destructive font-bold">ERROR</span>
                   </div>
+                  <div className="h-2 bg-destructive/30 rounded w-3/4"></div>
                 </div>
-              </div>
-
-              {/* Flow Arrow */}
-              <div className={`flex-1 h-0.5 bg-gradient-to-r from-accent/30 to-success/30 relative transition-all duration-1000 ${solutionStep >= 2 ? 'opacity-100' : 'opacity-0'}`}>
-                <div className="absolute right-0 top-1/2 -translate-y-1/2 w-3 h-3 bg-success rounded-full" />
-              </div>
-
-              {/* Clean Database */}
-              <div className={`transition-all duration-1000 ${solutionStep >= 3 ? 'opacity-100 scale-100' : 'opacity-0 scale-90'}`}>
-                <div className="bg-success/5 p-8 rounded-xl border-2 border-success/30">
-                  <h3 className="text-sm font-semibold text-success mb-4">OUTPUT</h3>
-                  <div className="space-y-2">
-                    <div className="flex items-center gap-2">
-                      <Database className="w-4 h-4 text-success" />
-                      <div className="flex-1 h-2 bg-success/30 rounded" />
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <Database className="w-4 h-4 text-success" />
-                      <div className="flex-1 h-2 bg-success/30 rounded" />
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <Database className="w-4 h-4 text-success" />
-                      <div className="flex-1 h-2 bg-success/30 rounded" />
-                    </div>
-                  </div>
-                  <p className="text-xs text-success mt-4">Vector Database</p>
-                </div>
+                <p className="text-xs text-destructive mt-4 font-semibold">Scrambled Output</p>
               </div>
             </div>
           </div>
 
-          {/* Process Details */}
-          <div className="grid grid-cols-3 gap-8">
-            <div className="bg-card p-8 rounded-xl shadow-md border border-border hover:shadow-accent transition-smooth">
-              <div className="w-12 h-12 bg-accent/10 rounded-lg flex items-center justify-center mb-6">
-                <Database className="w-6 h-6 text-accent" />
+          <p className="text-xl text-muted-foreground max-w-3xl mx-auto text-center mt-16 leading-relaxed">
+            Your LLM can't understand messy, unstructured documents. The result? Unreliable AI that undermines your investment.
+          </p>
+        </div>
+      </section>
+
+      {/* Solution Section - "Parse, Extract, Structure" */}
+      <section ref={solutionRef} className="py-32 px-8 bg-gradient-hero relative overflow-hidden min-h-screen flex items-center">
+        <div className="max-w-7xl mx-auto w-full">
+          <h2 className="text-5xl font-bold text-primary mb-16 text-center">
+            The Astructr Solution
+          </h2>
+          <p className="text-xl text-muted-foreground max-w-3xl mx-auto mb-20 text-center leading-relaxed">
+            Astructr transforms data chaos into pristine, structured, LLM-native vector databases.
+          </p>
+          
+          <div className="relative h-[500px]">
+            {/* Messy Documents */}
+            <div className={`absolute left-0 top-1/2 -translate-y-1/2 transition-all duration-1000 ${solutionStep >= 1 ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-20'}`}>
+              <div className="space-y-4">
+                <div className="bg-card border border-border rounded-lg p-4 w-48 shadow-md transform -rotate-3">
+                  <FileText className="w-8 h-8 text-muted-foreground mb-2" />
+                  <div className="h-1 bg-muted rounded w-full mb-1"></div>
+                  <div className="h-1 bg-muted rounded w-3/4"></div>
+                </div>
+                <div className="bg-card border border-border rounded-lg p-4 w-48 shadow-md transform rotate-2">
+                  <FileText className="w-8 h-8 text-muted-foreground mb-2" />
+                  <div className="h-1 bg-muted rounded w-full mb-1"></div>
+                  <div className="h-1 bg-muted rounded w-2/3"></div>
+                </div>
               </div>
-              <h3 className="text-2xl font-semibold text-primary mb-4">Parse</h3>
-              <p className="text-muted-foreground leading-relaxed">
-                Advanced extraction algorithms digest complex documents, preserving critical structure and context.
-              </p>
             </div>
 
-            <div className="bg-card p-8 rounded-xl shadow-md border border-border hover:shadow-accent transition-smooth">
-              <div className="w-12 h-12 bg-accent/10 rounded-lg flex items-center justify-center mb-6">
-                <Zap className="w-6 h-6 text-accent" />
+            {/* Astructr Engine */}
+            <div className={`absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 transition-all duration-1000 ${solutionStep >= 2 ? 'opacity-100 scale-100' : 'opacity-0 scale-90'}`}>
+              <div className="bg-gradient-accent rounded-2xl p-8 w-80 shadow-xl border-2 border-accent relative overflow-hidden">
+                <div className="absolute inset-0 opacity-20">
+                  <div className="absolute inset-0 bg-gradient-to-br from-accent-foreground/10 to-transparent"></div>
+                </div>
+                <div className="relative z-10">
+                  <Zap className="w-12 h-12 text-accent-foreground mx-auto mb-3" />
+                  <p className="text-accent-foreground font-bold text-center text-xl mb-6">Astructr Engine</p>
+                  {solutionStep >= 2 && (
+                    <div className="space-y-3">
+                      <div className={`flex items-center gap-3 transition-all duration-500 ${solutionStep >= 3 ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-4'}`}>
+                        <Check className="w-5 h-5 text-accent-foreground" />
+                        <span className="text-accent-foreground font-semibold">PARSE</span>
+                      </div>
+                      <div className={`flex items-center gap-3 transition-all duration-500 ${solutionStep >= 3 ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-4'}`} style={{ transitionDelay: '0.2s' }}>
+                        <Check className="w-5 h-5 text-accent-foreground" />
+                        <span className="text-accent-foreground font-semibold">EXTRACT</span>
+                      </div>
+                      <div className={`flex items-center gap-3 transition-all duration-500 ${solutionStep >= 3 ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-4'}`} style={{ transitionDelay: '0.4s' }}>
+                        <Check className="w-5 h-5 text-accent-foreground" />
+                        <span className="text-accent-foreground font-semibold">STRUCTURE</span>
+                      </div>
+                    </div>
+                  )}
+                </div>
+                {/* Animated glow */}
+                <div className="absolute inset-0 bg-accent/20 blur-xl animate-pulse"></div>
               </div>
-              <h3 className="text-2xl font-semibold text-primary mb-4">Extract</h3>
-              <p className="text-muted-foreground leading-relaxed">
-                Intelligent systems identify and extract key entities, relationships, and semantic meaning.
-              </p>
             </div>
 
-            <div className="bg-card p-8 rounded-xl shadow-md border border-border hover:shadow-accent transition-smooth">
-              <div className="w-12 h-12 bg-accent/10 rounded-lg flex items-center justify-center mb-6">
-                <Shield className="w-6 h-6 text-accent" />
+            {/* Clean Database Stack */}
+            <div className={`absolute right-0 top-1/2 -translate-y-1/2 transition-all duration-1000 ${solutionStep >= 4 ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-20'}`}>
+              <div className="relative">
+                <div className="space-y-2">
+                  {[...Array(5)].map((_, i) => (
+                    <div
+                      key={i}
+                      className="bg-card border-2 border-accent rounded-lg p-4 w-56 shadow-lg transition-all duration-500"
+                      style={{
+                        transform: `translateY(${i * -4}px)`,
+                        opacity: 1 - (i * 0.15),
+                        transitionDelay: `${i * 0.1}s`
+                      }}
+                    >
+                      <Layers className="w-6 h-6 text-accent mb-2" />
+                      <div className="h-1 bg-accent/50 rounded w-full mb-1"></div>
+                      <div className="h-1 bg-accent/50 rounded w-4/5"></div>
+                    </div>
+                  ))}
+                </div>
+                <p className="text-sm text-primary font-semibold mt-6 text-center">Structured Vector Database</p>
+                
+                {/* Connection line to LLM */}
+                {solutionStep >= 4 && (
+                  <div className="absolute -right-32 top-1/2 -translate-y-1/2">
+                    <div className="w-24 h-1 bg-success relative animate-fade-in">
+                      <div className="absolute right-0 top-1/2 -translate-y-1/2 w-0 h-0 border-t-8 border-t-transparent border-l-12 border-l-success border-b-8 border-b-transparent"></div>
+                    </div>
+                  </div>
+                )}
               </div>
-              <h3 className="text-2xl font-semibold text-primary mb-4">Structure</h3>
-              <p className="text-muted-foreground leading-relaxed">
-                Data is transformed into LLM-optimized vector databases, ready for high-accuracy queries.
+            </div>
+
+            {/* Happy LLM */}
+            {solutionStep >= 4 && (
+              <div className="absolute -right-16 top-1/2 -translate-y-1/2 animate-fade-in">
+                <Brain className="w-24 h-24 text-success" />
+                <Check className="absolute -top-2 -right-2 w-10 h-10 text-success animate-bounce" />
+              </div>
+            )}
+          </div>
+        </div>
+      </section>
+
+      {/* "What if you could..." Section */}
+      <section className="py-32 px-8 bg-secondary/30">
+        <div className="max-w-7xl mx-auto">
+          <h2 className="text-6xl font-bold text-primary mb-20 text-center">
+            What if your data could answer any question?
+          </h2>
+          
+          <div className="space-y-12">
+            {/* Question 1 */}
+            <div className="bg-card border border-border rounded-2xl p-12 shadow-lg hover:shadow-xl transition-smooth">
+              <h3 className="text-3xl font-bold text-primary mb-4">
+                ...ask a machine for its complete maintenance history and safety requirements just by describing it?
+              </h3>
+              <p className="text-lg text-muted-foreground mb-6 leading-relaxed">
+                Transform decades of maintenance logs, technical manuals, and safety documentation into an intelligent, queryable system.
               </p>
+              <Link to="/product">
+                <Button variant="outline" size="lg" className="text-lg">
+                  See the Use Case
+                </Button>
+              </Link>
+            </div>
+
+            {/* Question 2 */}
+            <div className="bg-card border border-border rounded-2xl p-12 shadow-lg hover:shadow-xl transition-smooth">
+              <h3 className="text-3xl font-bold text-primary mb-4">
+                ...instantly cross-reference every technical schematic you've ever produced to find a specific component?
+              </h3>
+              <p className="text-lg text-muted-foreground mb-6 leading-relaxed">
+                Turn your engineering drawings, CAD files, and technical specifications into a searchable knowledge graph.
+              </p>
+              <Link to="/product">
+                <Button variant="outline" size="lg" className="text-lg">
+                  See the Use Case
+                </Button>
+              </Link>
+            </div>
+
+            {/* Question 3 */}
+            <div className="bg-card border border-border rounded-2xl p-12 shadow-lg hover:shadow-xl transition-smooth">
+              <h3 className="text-3xl font-bold text-primary mb-4">
+                ...transform decades of static reports into an intelligent, queryable asset for your entire organization?
+              </h3>
+              <p className="text-lg text-muted-foreground mb-6 leading-relaxed">
+                Unlock the value trapped in PDFs, spreadsheets, and legacy documents across your enterprise.
+              </p>
+              <Link to="/contact">
+                <Button size="lg" className="text-lg bg-accent hover:bg-accent/90 shadow-accent">
+                  Request a Demo
+                </Button>
+              </Link>
             </div>
           </div>
         </div>
       </section>
 
       {/* Services Section */}
-      <section className="py-32 px-8 bg-background">
+      <section className="py-32 px-8">
         <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-20">
-            <h2 className="text-5xl font-bold text-primary mb-6">
-              Three Ways to Transform Your Data
-            </h2>
-          </div>
-
-          <div className="grid grid-cols-3 gap-8">
-            <div className="group bg-card p-10 rounded-2xl shadow-lg border border-border hover:shadow-accent transition-smooth hover:scale-105">
-              <h3 className="text-2xl font-semibold text-primary mb-4">Your Data, Optimized</h3>
-              <p className="text-muted-foreground leading-relaxed mb-6">
-                Upload your proprietary documents and we'll transform them into a pristine, query-ready database.
+          <h2 className="text-5xl font-bold text-primary mb-16 text-center">
+            Three Ways to Power Your AI
+          </h2>
+          
+          <div className="grid grid-cols-3 gap-12">
+            {/* Service 1 */}
+            <div className="bg-card border border-border rounded-2xl p-10 shadow-lg hover:shadow-xl transition-smooth">
+              <div className="bg-gradient-accent w-16 h-16 rounded-xl flex items-center justify-center mb-6">
+                <Database className="w-8 h-8 text-accent-foreground" />
+              </div>
+              <h3 className="text-2xl font-bold text-primary mb-4">Your Data, Optimized</h3>
+              <p className="text-muted-foreground leading-relaxed">
+                Send us your proprietary documents. We transform them into a pristine, structured vector database optimized for your LLM.
               </p>
-              <Link to="/product" onClick={() => window.scrollTo(0, 0)} className="inline-flex items-center text-accent font-medium group-hover:gap-2 transition-smooth">
-                Learn More <ArrowRight className="w-4 h-4 ml-1" />
-              </Link>
             </div>
 
-            <div className="group bg-card p-10 rounded-2xl shadow-lg border border-border hover:shadow-accent transition-smooth hover:scale-105">
-              <h3 className="text-2xl font-semibold text-primary mb-4">Industry Data Vaults</h3>
-              <p className="text-muted-foreground leading-relaxed mb-6">
-                Pre-built, expertly curated databases for your industry—ready to deploy immediately.
+            {/* Service 2 */}
+            <div className="bg-card border border-border rounded-2xl p-10 shadow-lg hover:shadow-xl transition-smooth">
+              <div className="bg-gradient-accent w-16 h-16 rounded-xl flex items-center justify-center mb-6">
+                <Layers className="w-8 h-8 text-accent-foreground" />
+              </div>
+              <h3 className="text-2xl font-bold text-primary mb-4">Industry Data Vaults</h3>
+              <p className="text-muted-foreground leading-relaxed">
+                Access pre-built, curated databases for your industry. From financial data to legal precedents to biotech research.
               </p>
-              <Link to="/product" onClick={() => window.scrollTo(0, 0)} className="inline-flex items-center text-accent font-medium group-hover:gap-2 transition-smooth">
-                Explore Vaults <ArrowRight className="w-4 h-4 ml-1" />
-              </Link>
             </div>
 
-            <div className="group bg-card p-10 rounded-2xl shadow-lg border border-border hover:shadow-accent transition-smooth hover:scale-105">
-              <h3 className="text-2xl font-semibold text-primary mb-4">Custom Hybrid Databases</h3>
-              <p className="text-muted-foreground leading-relaxed mb-6">
-                Combine your data with industry vaults to create a uniquely powerful knowledge base.
+            {/* Service 3 */}
+            <div className="bg-card border border-border rounded-2xl p-10 shadow-lg hover:shadow-xl transition-smooth">
+              <div className="bg-gradient-accent w-16 h-16 rounded-xl flex items-center justify-center mb-6">
+                <Zap className="w-8 h-8 text-accent-foreground" />
+              </div>
+              <h3 className="text-2xl font-bold text-primary mb-4">Custom Hybrid Databases</h3>
+              <p className="text-muted-foreground leading-relaxed">
+                Combine your proprietary data with our Industry Vaults to create a powerful, unique knowledge base for your AI.
               </p>
-              <Link to="/product" onClick={() => window.scrollTo(0, 0)} className="inline-flex items-center text-accent font-medium group-hover:gap-2 transition-smooth">
-                Build Custom <ArrowRight className="w-4 h-4 ml-1" />
-              </Link>
             </div>
           </div>
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-32 px-8 bg-gradient-primary text-primary-foreground relative overflow-hidden">
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_50%_50%,rgba(255,255,255,0.1),transparent_50%)]" />
-        </div>
-        <div className="max-w-4xl mx-auto text-center relative z-10">
-          <h2 className="text-5xl font-bold mb-6">
-            Ready to Transform Your AI Infrastructure?
+      {/* Final CTA */}
+      <section className="py-32 px-8 bg-gradient-accent">
+        <div className="max-w-4xl mx-auto text-center">
+          <h2 className="text-5xl font-bold text-accent-foreground mb-8">
+            Ready to unlock your data's potential?
           </h2>
-          <p className="text-xl mb-10 opacity-90">
-            Join forward-thinking companies who've turned their data into a competitive advantage.
+          <p className="text-xl text-accent-foreground/90 mb-10 leading-relaxed">
+            Join leading enterprises who trust Astructr to power their AI infrastructure.
           </p>
-          <div className="flex gap-4 justify-center">
-            <Link to="/contact" onClick={() => window.scrollTo(0, 0)}>
-              <Button size="lg" variant="secondary" className="text-base px-8">
-                Request Demo
-              </Button>
-            </Link>
-            <Link to="/pricing" onClick={() => window.scrollTo(0, 0)}>
-              <Button size="lg" variant="outline" className="text-base px-8 bg-transparent border-primary-foreground text-primary-foreground hover:bg-primary-foreground/10">
-                View Pricing
-              </Button>
-            </Link>
-          </div>
+          <Link to="/contact">
+            <Button size="lg" className="text-lg px-12 py-6 bg-accent-foreground text-accent hover:bg-accent-foreground/90">
+              Request a Demo
+            </Button>
+          </Link>
         </div>
       </section>
     </div>
