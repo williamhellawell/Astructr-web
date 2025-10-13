@@ -31,7 +31,7 @@ const Studio = () => {
         </h1>
         
         <p className="text-2xl text-muted-foreground mb-6 leading-relaxed animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
-          A playground for you to experiment with the Arcxion engine.
+          A playground for you to experiment with the Astructr engine.
         </p>
         
         <p className="text-lg text-muted-foreground mb-12 max-w-2xl mx-auto animate-fade-in-up" style={{ animationDelay: '0.2s' }}>

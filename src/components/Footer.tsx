@@ -6,7 +6,7 @@ const Footer = () => {
       <div className="max-w-7xl mx-auto px-8 py-16">
         <div className="grid grid-cols-5 gap-12">
           <div className="col-span-2">
-            <h3 className="text-2xl font-bold text-primary mb-4">Arcxion.ai</h3>
+            <h3 className="text-2xl font-bold text-primary mb-4">Astructr.ai</h3>
             <p className="text-muted-foreground text-sm leading-relaxed max-w-md">
               The AI infrastructure that transforms your unstructured data into pristine, LLM-native vector databases.
             </p>
@@ -45,7 +45,7 @@ const Footer = () => {
         
         <div className="mt-12 pt-8 border-t border-border">
           <p className="text-sm text-muted-foreground text-center">
-            © {new Date().getFullYear()} Arcxion.ai. All rights reserved.
+            © {new Date().getFullYear()} Astructr.ai. All rights reserved.
           </p>
         </div>
       </div>

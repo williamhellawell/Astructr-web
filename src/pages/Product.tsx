@@ -15,7 +15,7 @@ const Product = () => {
             Product & Solutions
           </h1>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            Discover how Arcxion.ai transforms data chaos into AI clarity across industries and roles.
+            Discover how Astructr.ai transforms data chaos into AI clarity across industries and roles.
           </p>
         </div>
       </section>
@@ -166,9 +166,9 @@ const Product = () => {
                         <span className="ml-2 text-white/60 text-xs">api_example.py</span>
                       </div>
                       <pre className="text-[#d4d4d4] overflow-x-auto">
-<span className="text-[#c586c0]">import</span> <span className="text-[#4ec9b0]">arcxion</span>
+<span className="text-[#c586c0]">import</span> <span className="text-[#4ec9b0]">astructr</span>
 
-<span className="text-[#9cdcfe]">client</span> = <span className="text-[#4ec9b0]">arcxion</span>.<span className="text-[#dcdcaa]">Client</span>({'\n'}  <span className="text-[#9cdcfe]">api_key</span>=<span className="text-[#ce9178]">"your_key"</span>{'\n'})
+<span className="text-[#9cdcfe]">client</span> = <span className="text-[#4ec9b0]">astructr</span>.<span className="text-[#dcdcaa]">Client</span>({'\n'}  <span className="text-[#9cdcfe]">api_key</span>=<span className="text-[#ce9178]">"your_key"</span>{'\n'})
 
 <span className="text-[#6a9955]"># Process documents</span>{'\n'}
 <span className="text-[#9cdcfe]">result</span> = <span className="text-[#9cdcfe]">client</span>.<span className="text-[#dcdcaa]">process</span>({'\n'}  <span className="text-[#9cdcfe]">files</span>=[<span className="text-[#ce9178]">"report.pdf"</span>],{'\n'}  <span className="text-[#9cdcfe]">output</span>=<span className="text-[#ce9178]">"vector_db"</span>{'\n'})

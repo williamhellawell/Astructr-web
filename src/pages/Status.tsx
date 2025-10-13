@@ -34,7 +34,7 @@ const Status = () => {
               System Status
             </h1>
             <p className="text-xl text-muted-foreground">
-              Real-time status and uptime information for all Arcxion.ai services
+              Real-time status and uptime information for all Astructr.ai services
             </p>
           </div>
 

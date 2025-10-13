@@ -198,20 +198,20 @@ const Contact = () => {
           <div className="grid grid-cols-3 gap-8">
             <div className="bg-card p-8 rounded-xl shadow-md border border-border">
               <h3 className="font-semibold text-primary mb-2">Sales Inquiries</h3>
-              <a href="mailto:sales@arcxion.ai" className="text-accent hover:underline">
-                sales@arcxion.ai
+              <a href="mailto:sales@astructr.ai" className="text-accent hover:underline">
+                sales@astructr.ai
               </a>
             </div>
             <div className="bg-card p-8 rounded-xl shadow-md border border-border">
               <h3 className="font-semibold text-primary mb-2">Technical Support</h3>
-              <a href="mailto:support@arcxion.ai" className="text-accent hover:underline">
-                support@arcxion.ai
+              <a href="mailto:support@astructr.ai" className="text-accent hover:underline">
+                support@astructr.ai
               </a>
             </div>
             <div className="bg-card p-8 rounded-xl shadow-md border border-border">
               <h3 className="font-semibold text-primary mb-2">General Questions</h3>
-              <a href="mailto:hello@arcxion.ai" className="text-accent hover:underline">
-                hello@arcxion.ai
+              <a href="mailto:hello@astructr.ai" className="text-accent hover:underline">
+                hello@astructr.ai
               </a>
             </div>
           </div>
