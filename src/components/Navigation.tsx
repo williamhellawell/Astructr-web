@@ -1,5 +1,6 @@
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import logo from "@/assets/logo.png";
 
 const Navigation = () => {
   const location = useLocation();
@@ -9,8 +10,8 @@ const Navigation = () => {
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-lg border-b border-border">
       <div className="max-w-7xl mx-auto px-8 py-4 flex items-center justify-between">
-        <Link to="/" className="text-2xl font-bold text-primary">
-          Astructr.ai
+        <Link to="/" className="flex items-center hover:opacity-80 transition-opacity" onClick={() => window.scrollTo(0, 0)}>
+          <img src={logo} alt="astructr" className="h-8" />
         </Link>
         
         <div className="flex items-center gap-8">
@@ -62,13 +63,8 @@ const Navigation = () => {
           
           <div className="flex items-center gap-3 ml-4">
             <Link to="/contact" onClick={() => window.scrollTo(0, 0)}>
-              <Button variant="ghost" size="sm">
-                Contact Sales
-              </Button>
-            </Link>
-            <Link to="/contact" onClick={() => window.scrollTo(0, 0)}>
-              <Button size="sm" className="bg-accent hover:bg-accent/90 text-accent-foreground shadow-accent">
-                Start Free
+              <Button size="sm" className="bg-accent hover:bg-accent/90 text-white shadow-accent font-medium">
+                Request Demo
               </Button>
             </Link>
           </div>
